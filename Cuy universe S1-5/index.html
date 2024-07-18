@@ -20,62 +20,100 @@
         <input type="text" placeholder="username" id="usernameInput" />
         <input type="password" placeholder="password" id="passwordInput" />
         <button onclick="onlogin()" id="loginButton">LOGIN</button>
+        <button onclick="onregister()" id="registerButton">REGISTER</button>
         <button onclick="onlogout()" id="logoutButton">LOGOUT</button>
         <br>
         <h1 id="admin">LOGIN SEBAGAI ADMIN</h1>
         <h1 id="basic">LOGIN SEBAGAI BIASA</h1>
+        <h1 id="bendahara">LOGIN SEBAGAI BENDAHARA</h1>
     </div>
 
     <script type="application/javascript">
-
         let usernameInput = document.getElementById('usernameInput')
         let passwordInput = document.getElementById('passwordInput')
         let loginButton = document.getElementById('loginButton')
         let logoutButton = document.getElementById('logoutButton')
         let admin = document.getElementById ('admin')
         let basic = document.getElementById ('basic')
+        let bendahara = document.getElementById ('bendahara')
+        let registerButton = document.getElementById('registerButton')
         
         admin.style.display = "none"
         basic.style.display = "none"
+        bendahara.style.display = "none"
         logoutButton.style.display = "none"
 
-       function onlogin() {
-        localStorage.setItem("username", usernameInput.value)
-        logoutButton.style.display = "block"
+        function onregister() {
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+            let username = usernameInput.value;
+            let password = passwordInput.value;
 
-        if(usernameInput.value == "admin" && passwordInput.value == "admin123"){
-            localStorage.setItem("role", "admin")
-            usernameInput.style.display = "none"
-            passwordInput.style.display = "none"
-            loginButton.style.display = "none"
-            admin.style.display = "block"
-        }else {
-            localStorage.setItem("role", "basic")
-            usernameInput.style.display = "none"
-            passwordInput.style.display = "none"
-            loginButton.style.display = "none"
-            basic.style.display = "block"
+            if (username in users) {
+                alert('Username sudah terdaftar!');
+                return;
+            }
+
+            users[username] = password;
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Pendaftaran berhasil!');
         }
 
-       }
+        function onlogin() {
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+            let username = usernameInput.value;
+            let password = passwordInput.value;
 
-       if(localStorage.getItem('username')){
-        usernameInput.style.display = "none"
-        passwordInput.style.display = "none"
-        loginButton.style.display = "none"
-        logoutButton.style.display = "block"
-        if(localStorage.getItem('role') == "admin"){
-            admin.style.display = "block"
-        }else{
-            basic.style.display = "block"
+            if (!(username in users) || users[username] !== password) {
+                alert('Username atau password salah!');
+                return;
+            }
+
+            localStorage.setItem("username", username);
+            logoutButton.style.display = "block";
+
+            if(username == "admin" && password == "admin123"){
+                localStorage.setItem("role", "admin");
+                usernameInput.style.display = "none";
+                passwordInput.style.display = "none";
+                loginButton.style.display = "none";
+                registerButton.style.display = "none";
+                admin.style.display = "block";
+            } else if (username == "bendahara" && password == "uang123") {
+                localStorage.setItem("role", "bendahara");
+                usernameInput.style.display = "none";
+                passwordInput.style.display = "none";
+                loginButton.style.display = "none";
+                registerButton.style.display = "none";
+                bendahara.style.display = "block";
+            } else {
+                localStorage.setItem("role", "basic");
+                usernameInput.style.display = "none";
+                passwordInput.style.display = "none";
+                loginButton.style.display = "none";
+                registerButton.style.display = "none";
+                basic.style.display = "block";
+            }
         }
-       }
 
-       function onlogout() {
-        localStorage.clear()
-        location.reload()
-       }
+        if(localStorage.getItem('username')){
+            usernameInput.style.display = "none";
+            passwordInput.style.display = "none";
+            loginButton.style.display = "none";
+            registerButton.style.display = "none";
+            logoutButton.style.display = "block";
+            if(localStorage.getItem('role') == "admin"){
+                admin.style.display = "block";
+            } else if(localStorage.getItem('role') == "bendahara"){
+                bendahara.style.display = "block";
+            } else {
+                basic.style.display = "block";
+            }
+        }
 
+        function onlogout() {
+            localStorage.clear();
+            location.reload();
+        }
     </script>
 </body>
 </html>
