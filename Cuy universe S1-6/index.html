@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Cuy universe S5</title>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a onclick="reREnder()" id="home">HOME</a>
+            <a onclick="darkMode()" id="modeDark">MODE-DARK</a>
+            <a onclick="galauMode()" id="modeGalau">MODE-GALAU</a>
+        </nav>
+        <h1>SESI 6 CUY UNIVERSE</h1>
+        <p class="info" id="info"></p>
+    </div>
+
+    <!-- initializing function script -->
+    <script>
+        let body = document.body;
+        let info = document.getElementById("info");
+        let modeDark = document.getElementById("modeDark");
+        let modeGalau = document.getElementById("modeGalau");
+        let home = document.getElementById("home");
+
+        const modeLimit = 4;
+        let modeCounter = 0;
+
+        function darkMode() {
+            if (body.classList.contains("dark")) {
+                body.classList.remove("dark");
+                modeDark.textContent = "MODE-DARK";
+                info.textContent = "";
+            } else {
+                let modeRemainingLeft = modeLimit - modeCounter;
+                if(modeRemainingLeft == 0){
+                    info.textContent = "JATAH FITUR DARK MODE ANDA SUDAH HABIS";
+                    modeDark.style.display = "none";
+                    modeGalau.style.display = "none"
+                    home.textContent = "RESTART";
+                    return;
+                }
+
+                modeCounter += 1;
+                modeDark.textContent = "MODE-LIGHT";
+                info.textContent = `Darkmode dipakai ${modeCounter}x, tersisa ${modeRemainingLeft}`;
+                body.classList.add("dark");
+            }
+        }
+        function galauMode() {
+            if (body.classList.contains("galau")) {
+                body.classList.remove("galau");
+                modeGalau.textContent = "MODE-GALAU";
+                info.textContent = "";
+            } else {
+                let modeRemainingLeft = modeLimit - modeCounter;
+                if(modeRemainingLeft == 0){
+                    info.textContent = "JATAH FITUR GALAU MODE ANDA SUDAH HABIS";
+                    modeGalau.style.display = "none";
+                    modeDark.style.display = "none"
+                    home.textContent = "RESTART";
+                    return;
+                }
+
+                modeCounter += 1;
+                modeGalau.textContent = "MODE-BIASA";
+                info.textContent = `Galaumode dipakai ${modeCounter}x, tersisa ${modeRemainingLeft}`;
+                body.classList.add("galau");
+            }
+        }
+
+        function reREnder() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
