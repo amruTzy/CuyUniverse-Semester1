@@ -1,0 +1,16 @@
+{
+  "name": "cuy-universe-s1-7",
+  "version": "1.0.0",
+  "description": "cuyuniverse S7 backend",
+  "main": "index.js",
+  "scripts": {
+    "nyala": "nodemon index.js"
+  },
+  "author": "amru",
+  "license": "ISC",
+  "dependencies": {
+    "@arismun/format-rupiah": "^3.0.0",
+    "nodemon": "^3.1.4",
+    "rupiah-format": "^1.0.0"
+  }
+}
